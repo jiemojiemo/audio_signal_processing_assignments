@@ -88,7 +88,7 @@ def chirpTracker(inputFile='../../sounds/chirp-150-190-linear.wav'):
     mX, pX = stft.stftAnal(x, w, N, H)
     maxplotfreq = 1500.0
     binFreq = fs*np.arange(N*maxplotfreq/fs)/N
-    plt.pcolormesh(tStamps, binFreq, np.transpose(mX[:,:N*maxplotfreq/fs+1]),cmap = 'hot_r')
+    plt.pcolormesh(tStamps, binFreq, np.transpose(mX[:,:int(N*maxplotfreq/fs+1)]),cmap = 'hot_r')
     plt.plot(tStamps,fTrackTrue, 'o-', color = 'c', linewidth=3.0)
     plt.plot(tStamps,fTrackEst, color = 'y', linewidth=2.0)
     plt.legend(('True f1', 'True f2', 'Estimated f1', 'Estimated f2'))

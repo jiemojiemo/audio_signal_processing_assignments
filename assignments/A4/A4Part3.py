@@ -82,7 +82,29 @@ def computeEngEnv(inputFile, window, M, N, H):
     """
     
     ### your code here
+    def energy(mY):
+        eDB = 10 * np.log10(np.sum((10 ** (mY / 20)) ** 2, axis = 1))
+        return eDB
+    
+    (fs, x) = UF.wavread(inputFile)
+    low_bound = int(np.ceil(float(3000) * N / fs))
+    high_bound = int(np.ceil(float(10000) * N / fs))
+    w = get_window(window, M)
+
+    mX, pX = stft.stftAnal(x, w, N, H)
+    low_band = np.transpose(np.transpose(mX)[1:low_bound])
+    high_band = np.transpose(np.transpose(mX)[low_bound:high_bound])
+
+    eDB_low = energy(low_band)
+    eDB_high = energy(high_band)
+
+    engEnv = np.append([eDB_low], [eDB_high], axis = 0)
+    engEnv = np.transpose(engEnv)
+
+    return engEnv
     # read file, get fs and signal
+    
+    '''
     fs, x = UF.wavread(inputFile)
     
     # get window
@@ -117,3 +139,6 @@ def computeEngEnv(inputFile, window, M, N, H):
     # convert to db
     engEnv = 10 * np.log10(engEnv)
     return engEnv
+    '''
+    
+   
